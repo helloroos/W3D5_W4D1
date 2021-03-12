@@ -4,7 +4,7 @@ class PolyTreeNode
     
     def initialize(value)
         @value = value
-        @parent = nil
+        @parent = nil # Node1
         @children = []
     end
 
@@ -18,20 +18,13 @@ class PolyTreeNode
         child.parent = self
     end
 
+    def remove_child(child)
+        if @children.include?(child)
+            child.parent = nil
+        else
+            raise "Error!"
+        end
+    end
+
 end
 
-# node1 = PolyTreeNode.new('root')
-# node2 = PolyTreeNode.new('child1') 
-# node3 = PolyTreeNode.new('child2') 
-
-# node4 = PolyTreeNode.new('new_parent')
-
-# node1.parent = node4
-
-# Remove ourselves from old parent's children's_arr
-# Reassign our parent
-# Add ourselves to new_parent's arr
-
-# Nil?? 
-
-# Does node1 have a parent? 
