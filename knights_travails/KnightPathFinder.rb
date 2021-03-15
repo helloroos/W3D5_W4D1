@@ -9,13 +9,9 @@ class KnightPathFinder # FIND SHORTEST PATH
         [-1,2],
         [-1,-2], 
         [-2,-1], 
-        [2,-1], 
-        [-1,2] 
+        [1,-2], 
+        [-2,1] 
     ]
-
-    # def self.root_node
-    #     PolyTreeNode.new(start_pos) # [0, 0]
-    # end
 
     def self.valid_moves(pos) # [0,0] // [-2,1]
         
@@ -30,12 +26,27 @@ class KnightPathFinder # FIND SHORTEST PATH
         moves
     end
 
-    attr_reader :start_pos
+    attr_reader :start_pos, :considered_positions
 
     def initialize(start_pos) # [0, 0]
         @start_pos = start_pos
         @root_node = PolyTreeNode.new(start_pos)
+        @considered_positions = [start_pos]
         @move_tree = [] # call move_tree (class method)
+    end
+
+    def new_move_positions(pos)
+        # init empty_arr
+        # shovel in ::valid_pos eles if they !@considered_pos.include? 
+        # implicitly return empty
+        # positions = []
+        positions = KnightPathFinder.valid_moves(pos).select do |move|
+            !considered_positions.include?(move)
+        end
+        positions.each do |position|
+            @considered_positions << position
+        end
+        positions
     end
 
     def find_path(pos)
