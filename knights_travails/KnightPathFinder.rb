@@ -17,12 +17,17 @@ class KnightPathFinder # FIND SHORTEST PATH
     #     PolyTreeNode.new(start_pos) # [0, 0]
     # end
 
-    def self.valid_moves?(new_pos)
-        # Start 00, add the value in the pos
-        # If res falls within board, it's a valid move
-
-        # start_pos + new_pos = results
+    def self.valid_moves(pos) # [0,0] // [-2,1]
         
+        moves = []
+        MOVES.each do |move|
+            row = pos[0] + move[0]
+            col = pos[1] + move[1]
+            new_pos = [row,col] #[2,1]
+            moves << new_pos if (row > 0 && row < 7) && (col > 0 && col < 7)
+        end
+
+        moves
     end
 
     attr_reader :start_pos
@@ -51,14 +56,14 @@ kpf.find_path([2, 1]) # => [[0, 0], [2, 1]]
 kpf.find_path([3, 3]) # => [[0, 0], [2, 1], [3, 3]]
 
 # [
-#     [0, 1, 2, 3, 4, 5, 6, 7] 0
-#     [0, 1, 2, 3, 4, 5, 6, 7] 1
-#     [0, 1, 2, 3, 4, 5, 6, 7] 2
-#     [0, 1, 2, 3, 4, 5, 6, 7] 3
-#     [0, 1, 2, 3, 4, 5, 6, 7] 4
-#     [0, 1, 2, 3, 4, 5, 6, 7] 5
-#     [0, 1, 2, 3, 4, 5, 6, 7] 6
-#     [0, 1, 2, 3, 4, 5, 6, 7] 7
+#     [0, 1, 2, 3, 4, 5, 6, 7] R0
+#     [0, 1, 2, 3, 4, 5, 6, 7] R1
+#     [0, 1, 2, 3, 4, 5, 6, 7] R2
+#     [0, 1, 2, 3, 4, 5, 6, 7] R3
+#     [0, 1, 2, 3, 4, 5, 6, 7] R4
+#     [0, 1, 2, 3, 4, 5, 6, 7] R5
+#     [0, 1, 2, 3, 4, 5, 6, 7] R6
+#     [0, 1, 2, 3, 4, 5, 6, 7] R7
 # ]
 
 
