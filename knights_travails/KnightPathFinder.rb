@@ -1,4 +1,4 @@
-require_relative "../skeleton/lib/00_tree_node.rb"
+require_relative "./poly_tree_node.rb"
 
 class KnightPathFinder # FIND SHORTEST PATH
 
@@ -14,7 +14,6 @@ class KnightPathFinder # FIND SHORTEST PATH
     ]
 
     def self.valid_moves(pos) # [0,0] // [-2,1]
-        
         moves = []
         MOVES.each do |move|
             row = pos[0] + move[0]
@@ -22,24 +21,19 @@ class KnightPathFinder # FIND SHORTEST PATH
             new_pos = [row,col] #[2,1]
             moves << new_pos if (row > 0 && row < 7) && (col > 0 && col < 7)
         end
-
         moves
     end
 
-    attr_reader :start_pos, :considered_positions
+    attr_reader :value, :considered_positions, :root_node
 
     def initialize(start_pos) # [0, 0]
-        @start_pos = start_pos
-        @root_node = PolyTreeNode.new(start_pos)
-        @considered_positions = [start_pos]
-        @move_tree = [] # call move_tree (class method)
+        @value = start_pos
+        @root_node = PolyTreeNode.new(value)
+        @considered_positions = [value]
+        build_move_tree(root_node)
     end
 
     def new_move_positions(pos)
-        # init empty_arr
-        # shovel in ::valid_pos eles if they !@considered_pos.include? 
-        # implicitly return empty
-        # positions = []
         positions = KnightPathFinder.valid_moves(pos).select do |move|
             !considered_positions.include?(move)
         end
@@ -52,19 +46,35 @@ class KnightPathFinder # FIND SHORTEST PATH
     def find_path(pos)
         path = []
         path
+        #use dfs here once tree has been built
     end
 
-    def inspect
-        {
-            root_node: @root_node,
-        }.to_s
+    def build_move_tree(root_node) #BFS
+        tree = [root_node]
+        until tree.empty? 
+        node = tree.shift
+            new_move_positions(node.value).each do |pos|
+               new_node = PolyTreeNode.new(pos)
+               new_node.parent = node
+               tree << new_node
+            end 
+        end
+        tree
     end
+
+
+
+    # def inspect
+    #     {
+    #         root_node: @root_node,
+    #     }.to_s
+    # end
 
 end
 
-kpf = KnightPathFinder.new([0,0])
-kpf.find_path([2, 1]) # => [[0, 0], [2, 1]]
-kpf.find_path([3, 3]) # => [[0, 0], [2, 1], [3, 3]]
+# p kpf = KnightPathFinder.new([0,0])
+# p kpf.find_path([2, 1]) # => [[0, 0], [2, 1]]
+# p kpf.find_path([3, 3]) # => [[0, 0], [2, 1], [3, 3]]
 
 # [
 #     [0, 1, 2, 3, 4, 5, 6, 7] R0
@@ -75,7 +85,7 @@ kpf.find_path([3, 3]) # => [[0, 0], [2, 1], [3, 3]]
 #     [0, 1, 2, 3, 4, 5, 6, 7] R5
 #     [0, 1, 2, 3, 4, 5, 6, 7] R6
 #     [0, 1, 2, 3, 4, 5, 6, 7] R7
-# ]
+# ]col:A  B  C  D  E  F  G  H
 
 
 # Start at root = start_pos
