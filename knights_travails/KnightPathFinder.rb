@@ -17,8 +17,12 @@ class KnightPathFinder # FIND SHORTEST PATH
     #     PolyTreeNode.new(start_pos) # [0, 0]
     # end
 
-    def self.valid_moves?(pos)
-        moves 
+    def self.valid_moves?(new_pos)
+        # Start 00, add the value in the pos
+        # If res falls within board, it's a valid move
+
+        # start_pos + new_pos = results
+        
     end
 
     attr_reader :start_pos
